@@ -16,6 +16,6 @@ Create a random playlist from a randomly selected song from a file of songs you 
 * Run the module using ```python .\playlist_recommendations.py --seed-file "path/to/file/here"```
 
 ## To Do ##
-1. Remove the need for a seed text file, allow user to search by a song and artists not seeds.
+1. Remove the need for a seed text file, allow user to search by a song and artists not seeds (underway).
 2. Auth code flow to obtain refresh token
 3. Save playlist to the user's spotify account
