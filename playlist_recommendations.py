@@ -9,21 +9,37 @@ import random
 
 import requests
 
-def main(seed_file):
+def main(artist, track):
     """
     Print a 25 song-long playlist based on a randomly chosen input song
     """
-    seeds = randomly_get_seed_from_file(seed_file)
+    seeds = search_artist_track(artist, track)
     query_api(seeds)
+
+def search_artist_track(artist, track):
+    track = track.replace(" ", "+")
+    settings = define_settings()
+    endpoint_url = "https://api.spotify.com/v1/search?"
+    query = f'{endpoint_url}'
+    query += f'q=track%3A{track}%20artist%3A{artist}&type=track'
+    response = requests.get(query,
+                            headers={"Content-Type":"application/json",
+                                     "Authorization":f"Bearer {settings[1]}"})
+    json_response = response.json()
+    seeds = get_track_artist_id_from_json(json_response)
+    return seeds
+
+def get_track_artist_id_from_json(json_response):
+    seeds = [(json_response['tracks']['items'][0]['artists'][0]['id']), (json_response['tracks']['items'][0]['id'])]
+    return seeds
 
 def define_settings():
     """
-    Sets the endpoint as well as defines the user_id and the token
+    Sets the endpoint as well as defines the token
     """
     endpoint_url = "https://api.spotify.com/v1/recommendations?"
-    token = ""
-    user_id = ""
-    settings = [endpoint_url, token, user_id]
+    token = "BQD0B90b3eY_BRbygWoh0ol3WkHapxasqUwUblUa1Q54Iq-CFrLXgQACgAhNXOiUFSAWNI9cCEoftx9fq8_WwshN1gWZHtdzr71nZ4SCGH59Ae8ICqx7nX_FM4XfrwLvkvtYJ9TNSvvdBGd582xM1B4TpaFSTi-rTHq2Ybb9Gwj-hq6wvtpCq4uKKZTl0-wdB2Ykt7pdBGTDkh2zLm1KpYqybR6dGD064FExkbJQ8mmi6otbYiO1MO7lw0dq0lxtRFeffJ8Ti-X5Z-g"
+    settings = [endpoint_url, token]
     return settings
 
 def define_filters(seeds):
@@ -64,9 +80,12 @@ def query_api(seeds):
     query = f'{settings[0]}limit={filters[0]}&market={filters[1]}&seed_genres={filters[2]}'
     query += f'&seed_artists={filters[3]}'
     query += f'&seed_tracks={filters[4]}'
-    response = requests.get(query,
-                            headers={"Content-Type":"application/json",
-                                     "Authorization":f"Bearer {settings[1]}"})
+    try:
+        response = requests.get(query,
+                                headers={"Content-Type":"application/json",
+                                         "Authorization":f"Bearer {settings[1]}"})
+    except:
+        print("Token expired please go to https://developer.spotify.com/ to obtain a new one!")
     json_response = response.json()
     print_output(json_response)
 
@@ -85,7 +104,10 @@ def parse_options():
     parser = argparse.ArgumentParser(description=("This is a command line interface (CLI) for "
                                                   "the playlist_reccomendation module"),
                                      epilog="Ethan Jones, 2020-05-25")
-    parser.add_argument("--seed-file", dest="seed_file", action="store", type=str,
+    parser.add_argument("-a", dest="artist", action="store", type=str,
+                        required=True, metavar="</path/to/file>",
+                        help="Specify the path to the seed file.")
+    parser.add_argument("-t", dest="track", action="store", type=str,
                         required=True, metavar="</path/to/file>",
                         help="Specify the path to the seed file.")
     options = parser.parse_args()
@@ -93,4 +115,4 @@ def parse_options():
 
 if __name__ == "__main__":
     OPTIONS = parse_options()
-    main(OPTIONS.seed_file)
+    main(OPTIONS.artist, OPTIONS.track)
