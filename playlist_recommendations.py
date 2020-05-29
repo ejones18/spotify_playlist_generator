@@ -17,6 +17,9 @@ def main(artist, track):
     query_api(seeds)
 
 def search_artist_track(artist, track):
+    """
+    Searches the Spotify API for the artist and track, returns the json response
+    """
     track = track.replace(" ", "+")
     settings = define_settings()
     endpoint_url = "https://api.spotify.com/v1/search?"
@@ -30,7 +33,11 @@ def search_artist_track(artist, track):
     return seeds
 
 def get_track_artist_id_from_json(json_response):
-    seeds = [(json_response['tracks']['items'][0]['artists'][0]['id']), (json_response['tracks']['items'][0]['id'])]
+    """
+    Gets the track and artist ID from the json response from the API search
+    """
+    seeds = [(json_response['tracks']['items'][0]['artists'][0]['id']),
+             (json_response['tracks']['items'][0]['id'])]
     return seeds
 
 def define_settings():
@@ -38,7 +45,7 @@ def define_settings():
     Sets the endpoint as well as defines the token
     """
     endpoint_url = "https://api.spotify.com/v1/recommendations?"
-    token = "BQD0B90b3eY_BRbygWoh0ol3WkHapxasqUwUblUa1Q54Iq-CFrLXgQACgAhNXOiUFSAWNI9cCEoftx9fq8_WwshN1gWZHtdzr71nZ4SCGH59Ae8ICqx7nX_FM4XfrwLvkvtYJ9TNSvvdBGd582xM1B4TpaFSTi-rTHq2Ybb9Gwj-hq6wvtpCq4uKKZTl0-wdB2Ykt7pdBGTDkh2zLm1KpYqybR6dGD064FExkbJQ8mmi6otbYiO1MO7lw0dq0lxtRFeffJ8Ti-X5Z-g"
+    token = "BQD0B90b3eY_BRbygWoh0ol3WkHapxasqUwUblUa1Q54Iq--rTHq2Ybb9Gwj-hq6wvtpCq4uKKZTl0-wdB2Ykt7pdBGTDkh2zLm1KpYqybR6dGD064FExkbJQ8mmi6otbYiO1MO7lw0dq0lxtRFeffJ8Ti-X5Z-g"
     settings = [endpoint_url, token]
     return settings
 
@@ -80,12 +87,9 @@ def query_api(seeds):
     query = f'{settings[0]}limit={filters[0]}&market={filters[1]}&seed_genres={filters[2]}'
     query += f'&seed_artists={filters[3]}'
     query += f'&seed_tracks={filters[4]}'
-    try:
-        response = requests.get(query,
-                                headers={"Content-Type":"application/json",
-                                         "Authorization":f"Bearer {settings[1]}"})
-    except:
-        print("Token expired please go to https://developer.spotify.com/ to obtain a new one!")
+    response = requests.get(query,
+                            headers={"Content-Type":"application/json",
+                                     "Authorization":f"Bearer {settings[1]}"})
     json_response = response.json()
     print_output(json_response)
 
