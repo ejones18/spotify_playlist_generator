@@ -45,7 +45,7 @@ def define_settings():
     Sets the endpoint as well as defines the token
     """
     endpoint_url = "https://api.spotify.com/v1/recommendations?"
-    token = "BQD0B90b3eY_BRbygWoh0ol3WkHapxasqUwUblUa1Q54Iq--rTHq2Ybb9Gwj-hq6wvtpCq4uKKZTl0-wdB2Ykt7pdBGTDkh2zLm1KpYqybR6dGD064FExkbJQ8mmi6otbYiO1MO7lw0dq0lxtRFeffJ8Ti-X5Z-g"
+    token = ""
     settings = [endpoint_url, token]
     return settings
 
