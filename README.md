@@ -18,6 +18,6 @@ Create a random playlist from any song you want!
 
 ## To Do ##
 1. Remove the need for a seed text file, allow user to search by a song and artists not seeds (NEEDS THOROUGH TESTING!).
-2. Convert into a flask app
-3. Auth code flow to obtain refresh token
-4. Save playlist to the user's spotify account
+2. Auth code flow to obtain refresh token.
+3. Save playlist to the user's spotify account.
+4. Electron...
