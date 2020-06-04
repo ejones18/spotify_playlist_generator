@@ -61,23 +61,6 @@ def define_filters(seeds):
     filters = [limit, market, seed_genres, seed_artists, seed_tracks]
     return filters
 
-def randomly_get_seed_from_file(seed_file):
-    """
-    Reads the input file and fetches a random set of seeds.
-    Seeds found @ https://developer.spotify.com/console/get-search-item/
-    """
-    file = open(seed_file, "r")
-    lines = file.readlines()
-    line = []
-    for index in range(0, len(lines)-1):
-        selected_line = lines[index]
-        line_length = len(selected_line)
-        sub_string = selected_line[:line_length-1]
-        line.append(sub_string)
-    line.append(lines[index+1])
-    seeds = random.choice(line).split()
-    return seeds
-
 def query_api(seeds):
     """
     Queries the Spotify API and returns a json response
