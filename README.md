@@ -16,7 +16,7 @@ Create a random playlist from any song you want!
 
 ## To Do ##
 1. <s>Remove the need for a seed text file, allow user to search by a song and artists not seeds</s>
-2. Refactor to OOP
+2. Refactor script to OOP *Underway
 3. Auth code flow to obtain refresh token.
 4. Save playlist to the user's spotify account.
 5. Electron...
