@@ -19,4 +19,3 @@ Create a random playlist from any song you want!
 2. Refactor script to OOP *Underway
 3. Auth code flow to obtain refresh token.
 4. Save playlist to the user's spotify account.
-5. Electron...
