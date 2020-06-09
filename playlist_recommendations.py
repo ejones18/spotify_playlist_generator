@@ -92,10 +92,10 @@ def parse_options():
                                                   "the playlist_reccomendation module"),
                                      epilog="Ethan Jones, 2020-05-25")
     parser.add_argument("-a", dest="artist", action="store", type=str,
-                        required=True, metavar="</path/to/file>",
+                        required=True, metavar="name_of_artist",
                         help="Specify the path to the seed file.")
     parser.add_argument("-t", dest="track", action="store", type=str,
-                        required=True, metavar="</path/to/file>",
+                        required=True, metavar="name_of_track",
                         help="Specify the path to the seed file.")
     options = parser.parse_args()
     return options
