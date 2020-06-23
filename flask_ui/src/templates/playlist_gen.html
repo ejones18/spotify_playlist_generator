@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+    <link href= "{{url_for('static',filename='./css/playlist.css')}}" rel="stylesheet" type="text/css">
+    <div id="container">
+        <hr><h1>Playlist Generator Tool</h1><hr><br>
+        <form id="search_form" action="" method="post" id="" enctype="multipart/form-data">
+            <br><br><button id="submitButton" type="submit" class="btn btn-primary">Generate playlist</button>
+        </form>
+    </div>
+{% endblock %}
