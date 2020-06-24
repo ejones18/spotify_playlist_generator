@@ -16,12 +16,12 @@ app.secret_key = 'some key for session'
 
 @app.route("/auth")
 def auth():
-    return redirect(spotify.AUTH_URL)
+    return redirect(spotify_wrapper.AUTH_URL)
 
 @app.route("/callback/")
 def callback():
     auth_token = request.args['code']
-    auth_header = spotify.authorize(auth_token)
+    auth_header = spotify_wrapper.authorize(auth_token)
     session['auth_header'] = auth_header
     return profile()
 
