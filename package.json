@@ -1,0 +1,24 @@
+{
+  "name": "spotify_playlist_recommendations",
+  "version": "1.0.0",
+  "description": "Native desktop application that creates a random playlist based on an inputted song",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejones18/spotify_playlist_recommendations.git"
+  },
+  "author": "Ethan Jones",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ejones18/spotify_playlist_recommendations/issues"
+  },
+  "homepage": "https://github.com/ejones18/spotify_playlist_recommendations#readme",
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "request": "^2.88.2"
+  }
+}
