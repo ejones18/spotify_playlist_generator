@@ -5,7 +5,6 @@ A python script that fetches song recommendations using the Spotify API
 - First authored: 2020-05-25
 """
 import argparse
-import random
 
 import requests
 
