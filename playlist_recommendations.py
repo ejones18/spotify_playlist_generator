@@ -92,10 +92,10 @@ def parse_options():
                                      epilog="Ethan Jones, 2020-05-25")
     parser.add_argument("-a", dest="artist", action="store", type=str,
                         required=True, metavar="name_of_artist",
-                        help="Specify the path to the seed file.")
+                        help="Artist name.")
     parser.add_argument("-t", dest="track", action="store", type=str,
                         required=True, metavar="name_of_track",
-                        help="Specify the path to the seed file.")
+                        help="Track name.")
     options = parser.parse_args()
     return options
 
