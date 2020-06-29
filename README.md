@@ -15,7 +15,8 @@ Create a random playlist from any song you want!
 * Run the module using ```python .\playlist_recommendations.py -a "artist name" -t "track name"```
 
 ## Running the electron desktop app ##
-* Instructions to follow...
+* Install all js dependencies using ```npm install```
+* Start the app with ```npm start```
 
 ## To Do ##
 1. <s>Remove the need for a seed text file, allow user to search by a song and artists not seeds</s>
