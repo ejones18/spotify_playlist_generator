@@ -17,8 +17,14 @@ Menu.setApplicationMenu(menu)
 let win;
 
 function create_window(){
-    win = new BrowserWindow({width:800, height:600})
-    //win.webContents.openDevTools()
+    win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
+    win.webContents.openDevTools()
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'src/templates/index.html'),
         protocol: 'file:',
