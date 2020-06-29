@@ -19,5 +19,5 @@ Create a random playlist from any song you want!
 
 ## To Do ##
 1. <s>Remove the need for a seed text file, allow user to search by a song and artists not seeds</s>
-2. Translaeting to JS for electron use... *underway*
+2. Add electron UI *underway*
 3. Save playlist to the user's spotify account.
