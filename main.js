@@ -24,7 +24,7 @@ function create_window(){
             nodeIntegration: true
         }
     });
-    //win.webContents.openDevTools()
+    win.webContents.openDevTools()
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'src/templates/index.html'),
         protocol: 'file:',
