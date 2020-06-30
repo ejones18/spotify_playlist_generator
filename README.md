@@ -9,13 +9,9 @@ Create a random playlist from any song you want!
 * Download Python3+
 * Download the repository 
 
-## Running the *playlist_reccomendations.py script* ##
-* Fill in your user_id and token (Token needs replacing every hour) in the playlist_recommendations.py file, obtained from the Spotify API pages.
-* Navigate to the directory of the downloaded repo and run command ```python .\playlist_recommendations.py -h``` to see the CLI.
-* Run the module using ```python .\playlist_recommendations.py -a "artist name" -t "track name"```
-
 ## Running the electron desktop app ##
 * Install all js dependencies using ```npm install```
+* Spotify client credientials need adding to the engine script - see README for that script
 * Start the app with ```npm start```
 
 ## To Do ##
