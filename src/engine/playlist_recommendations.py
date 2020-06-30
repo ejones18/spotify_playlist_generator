@@ -7,6 +7,10 @@ A python script that fetches song recommendations using the Spotify API
 import argparse
 import sys
 import requests
+import json
+
+CLIENT_ID = " "
+CLIENT_SECRET = " " #Add your own client credentials here
 
 def main(artist, track):
     """
@@ -14,6 +18,15 @@ def main(artist, track):
     """
     seeds = search_artist_track(artist, track)
     query_api(seeds)
+
+def acquire_token():
+    grant_type = 'client_credentials'
+    body_params = {'grant_type' : grant_type}
+    url = 'https://accounts.spotify.com/api/token'
+    response = requests.post(url, data=body_params, auth = (CLIENT_ID, CLIENT_SECRET)) 
+    token_raw = json.loads(response.text)
+    token = token_raw["access_token"]
+    return token
 
 def search_artist_track(artist, track):
     """
@@ -44,7 +57,7 @@ def define_settings():
     Sets the endpoint as well as defines the token
     """
     endpoint_url = "https://api.spotify.com/v1/recommendations?"
-    token = "BQCSrX8OYSynb1QS65WhKHF_KM2sIrmZ33ZUI010o2tvt39CdFAYmb3_lS3CPIpt7U4mkB9wKJdiP1swGjv3aJWJ-YoPQ9aIAeI5rIpVmQzp8LK4rF-abYYhV9jQ36NJsR2DQEa0hoGxgvly7cYMbUW1slcBRGAnSDdX6VTO2C0DLnnRQF3YM3POHHDESWBGOYdRxG3JFFplqHgjeuTinzi3Trw8vBDegDfvMX0dAO1uJyvZyVg5W_69cTA8E2vGADaPgRcvzbR_vhw"
+    token = acquire_token()
     settings = [endpoint_url, token]
     return settings
 
@@ -101,7 +114,6 @@ def parse_options():
     return options
 
 if __name__ == "__main__":
-    #OPTIONS = parse_options()
     artist = sys.argv[1]
     track = sys.argv[2]
     main(artist, track)
