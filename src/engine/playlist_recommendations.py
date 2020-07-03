@@ -9,8 +9,8 @@ import sys
 import requests
 import json
 
-CLIENT_ID = " "
-CLIENT_SECRET = " " #Add your own client credentials here
+CLIENT_ID = ""
+CLIENT_SECRET = "" #Add your own client credentials here
 
 def main(artist, track):
     """
@@ -23,7 +23,7 @@ def acquire_token():
     grant_type = 'client_credentials'
     body_params = {'grant_type' : grant_type}
     url = 'https://accounts.spotify.com/api/token'
-    response = requests.post(url, data=body_params, auth = (CLIENT_ID, CLIENT_SECRET)) 
+    response = requests.post(url, data=body_params, auth = (CLIENT_ID, CLIENT_SECRET))
     token_raw = json.loads(response.text)
     token = token_raw["access_token"]
     return token
@@ -48,6 +48,7 @@ def get_track_artist_id_from_json(json_response):
     """
     Gets the track and artist ID from the json response from the API search
     """
+    import pdb; pdb.set_trace()
     seeds = [(json_response['tracks']['items'][0]['artists'][0]['id']),
              (json_response['tracks']['items'][0]['id'])]
     return seeds
@@ -93,7 +94,7 @@ def print_output(json_response):
     Prints the output
     """
     uris = []
-    print('Recommended Songs:')
+    print('Playlist:')
     for i, j in enumerate(json_response['tracks']):
         uris.append(j['uri'])
         print(f"{i+1}) \"{j['name']}\" by {j['artists'][0]['name']}")
@@ -114,6 +115,5 @@ def parse_options():
     return options
 
 if __name__ == "__main__":
-    artist = sys.argv[1]
-    track = sys.argv[2]
-    main(artist, track)
+    OPTIONS = parse_options()
+    main(OPTIONS.artist, OPTIONS.track)
