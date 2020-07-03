@@ -7,7 +7,7 @@ function gen_playlist() {
     
     var options = {
         scriptPath : path.join(__dirname, '/../engine/'),
-        args : [artist, track]
+        args : ["-a", artist, "-t", track]
     }
     
     var playlist = new PythonShell('playlist_recommendations.py', options);
