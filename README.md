@@ -6,8 +6,9 @@ Create a random playlist from any song you want!
 * Developed and tested with Python 3.7, should work for 3.6+.
 
 ## Setup ##
-* Download Python3+
-* Download the repository 
+* Download Python3+ from https://www.python.org/downloads/release/python-370/
+* Download Node.js from https://nodejs.org/en/download/
+* Download or clone the repository 
 
 ## Running the electron desktop app ##
 * Install all js dependencies using ```npm install```
