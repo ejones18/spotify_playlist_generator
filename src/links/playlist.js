@@ -13,6 +13,9 @@ function gen_playlist() {
     var playlist = new PythonShell('playlist_recommendations.py', options);
     
     playlist.on('message', function(message) {
+        if (message === "Sorry, an error occurred. Please try again."){
+            alert(message)
+        }
         console.log(message);
     })
 }

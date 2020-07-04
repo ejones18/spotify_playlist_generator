@@ -25,8 +25,12 @@ def main(artist, track):
     """
     Print a 25 song-long playlist based on a randomly chosen input song.
     """
-    seeds = search_artist_track(artist, track)
-    query_api(seeds)
+    try:
+        seeds = search_artist_track(artist, track)
+        query_api(seeds)
+    except:
+        print("Sorry, an error occurred. Please try again.")
+        sys.stdout.flush()
 
 def acquire_token():
     """Fetches a Spotify web API token"""
