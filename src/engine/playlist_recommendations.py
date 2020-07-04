@@ -8,13 +8,14 @@ import argparse
 import sys
 import requests
 import json
+import random
 
 CLIENT_ID = ""
 CLIENT_SECRET = "" #Add your own client credentials here
 
 def main(artist, track):
     """
-    Print a 25 song-long playlist based on a randomly chosen input song
+    Print a 25 song-long playlist based on a randomly chosen input song.
     """
     seeds = search_artist_track(artist, track)
     query_api(seeds)
@@ -28,9 +29,23 @@ def acquire_token():
     token = token_raw["access_token"]
     return token
 
+def fetch_artist_genre(artist_id):
+    """Fetches a genre of the artist."""
+    endpoint_url = f'https://api.spotify.com/v1/artists/{artist_id}'
+    query = f'{endpoint_url}'
+    settings = define_settings()
+    response = requests.get(query,
+                            headers={"Content-Type":"application/json",
+                                     "Authorization":f"Bearer {settings[1]}"})
+    json_response = response.json()
+    genres = json_response['genres']
+    index = random.randint(0, len(genres)-1)
+    genre = genres[index]
+    return genre
+
 def search_artist_track(artist, track):
     """
-    Searches the Spotify API for the artist and track, returns the json response
+    Searches the Spotify API for the artist and track, returns the json response.
     """
     track = track.replace(" ", "+")
     settings = define_settings()
@@ -46,16 +61,17 @@ def search_artist_track(artist, track):
 
 def get_track_artist_id_from_json(json_response):
     """
-    Gets the track and artist ID from the json response from the API search
+    Gets the track and artist ID from the json response from the API search.
     """
-    import pdb; pdb.set_trace()
-    seeds = [(json_response['tracks']['items'][0]['artists'][0]['id']),
-             (json_response['tracks']['items'][0]['id'])]
+    artist_id = json_response['tracks']['items'][0]['artists'][0]['id']
+    track_id = json_response['tracks']['items'][0]['id']
+    genre = fetch_artist_genre(artist_id)
+    seeds = [(artist_id), (track_id), (genre)]
     return seeds
 
 def define_settings():
     """
-    Sets the endpoint as well as defines the token
+    Sets the endpoint as well as defines the token.
     """
     endpoint_url = "https://api.spotify.com/v1/recommendations?"
     token = acquire_token()
@@ -64,7 +80,7 @@ def define_settings():
 
 def define_filters(seeds):
     """
-    Sets the filters i.e. number of songs and genre
+    Sets the filters i.e. number of songs and genre.
     """
     limit = 25
     market = "GB"
@@ -76,7 +92,7 @@ def define_filters(seeds):
 
 def query_api(seeds):
     """
-    Queries the Spotify API and returns a json response
+    Queries the Spotify API and returns a json response.
     """
     settings = define_settings()
     filters = define_filters(seeds)
@@ -91,7 +107,7 @@ def query_api(seeds):
 
 def print_output(json_response):
     """
-    Prints the output
+    Prints the output.
     """
     uris = []
     print('Playlist:')
