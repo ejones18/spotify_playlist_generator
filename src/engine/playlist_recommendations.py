@@ -6,12 +6,20 @@ A python script that fetches song recommendations using the Spotify API
 """
 import argparse
 import sys
-import requests
 import json
 import random
+import os
+import time
+
+import pickle
+
+
+import requests
 
 CLIENT_ID = ""
 CLIENT_SECRET = "" #Add your own client credentials here
+
+ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 def main(artist, track):
     """
@@ -21,13 +29,35 @@ def main(artist, track):
     query_api(seeds)
 
 def acquire_token():
-    grant_type = 'client_credentials'
-    body_params = {'grant_type' : grant_type}
-    url = 'https://accounts.spotify.com/api/token'
-    response = requests.post(url, data=body_params, auth = (CLIENT_ID, CLIENT_SECRET))
-    token_raw = json.loads(response.text)
-    token = token_raw["access_token"]
-    return token
+    """Fetches a Spotify web API token"""
+    token_cache_dir = os.path.join(ROOT_PATH, "cache")
+    token_cache_file = os.path.join(token_cache_dir, "token.p")
+    if os.path.exists(token_cache_file):
+        current_time = time.time()
+        if current_time - os.path.getmtime(token_cache_file) < 3600:
+            with open(token_cache_file, "rb") as fid:
+                token = pickle.load(fid)
+            return token
+        else:
+            grant_type = 'client_credentials'
+            body_params = {'grant_type' : grant_type}
+            url = 'https://accounts.spotify.com/api/token'
+            response = requests.post(url, data=body_params, auth=(CLIENT_ID, CLIENT_SECRET))
+            token_raw = json.loads(response.text)
+            token = token_raw["access_token"]
+            with open(token_cache_file, "wb") as fid:
+                pickle.dump(token, fid)
+            return token
+    else:
+        grant_type = 'client_credentials'
+        body_params = {'grant_type' : grant_type}
+        url = 'https://accounts.spotify.com/api/token'
+        response = requests.post(url, data=body_params, auth=(CLIENT_ID, CLIENT_SECRET))
+        token_raw = json.loads(response.text)
+        token = token_raw["access_token"]
+        with open(token_cache_file, "wb") as fid:
+            pickle.dump(token, fid)
+        return token
 
 def fetch_artist_genre(artist_id):
     """Fetches a genre of the artist."""
