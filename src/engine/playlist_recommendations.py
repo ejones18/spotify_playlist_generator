@@ -16,8 +16,8 @@ import pickle
 
 import requests
 
-CLIENT_ID = ""
-CLIENT_SECRET = "" #Add your own client credentials here
+CLIENT_ID = "8731b9a1016d425a81792b761dcd1cbc"
+CLIENT_SECRET = "0a0ad13a5bc549ad942a4a9cbe91fb32" #Add your own client credentials here
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -118,7 +118,7 @@ def define_filters(seeds):
     """
     limit = 25
     market = "GB"
-    seed_genres = "indie"
+    seed_genres = seeds[2]
     seed_artists = seeds[0]
     seed_tracks = seeds[1]
     filters = [limit, market, seed_genres, seed_artists, seed_tracks]
@@ -144,10 +144,11 @@ def print_output(json_response):
     Prints the output.
     """
     uris = []
-    print('Playlist:')
+    query = 'Playlist: '
     for i, j in enumerate(json_response['tracks']):
         uris.append(j['uri'])
-        print(f"{i+1}) \"{j['name']}\" by {j['artists'][0]['name']}")
+        query += f"{i+1}) \"{j['name']}\" by {j['artists'][0]['name']} "
+    print(query)
     sys.stdout.flush()
 
 def parse_options():
