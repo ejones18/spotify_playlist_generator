@@ -4,6 +4,7 @@ A python script that recommends a playlist based on an inputted artist and track
 ## What is this repository for? ##
 Create a random playlist from any song you want!
 * Developed and tested with Python 3.7, should work for 3.6+.
+* Developed with Node.js 10.0+
 
 ## Setup ##
 * Download Python3+ from https://www.python.org/downloads/release/python-370/
