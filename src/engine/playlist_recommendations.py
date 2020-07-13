@@ -16,8 +16,8 @@ import pickle
 
 import requests
 
-CLIENT_ID = "8731b9a1016d425a81792b761dcd1cbc"
-CLIENT_SECRET = "0a0ad13a5bc549ad942a4a9cbe91fb32" #Add your own client credentials here
+CLIENT_ID = ""
+CLIENT_SECRET = "" #Add your own client credentials here
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
