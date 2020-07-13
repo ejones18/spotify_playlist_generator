@@ -16,6 +16,16 @@ function gen_playlist() {
         if (message === "Sorry, an error occurred. Please try again."){
             alert(message)
         }
-        console.log(message);
+        else{
+            document.getElementById("submitButton").remove();
+            document.getElementById("artist").remove();
+            document.getElementById("track").remove();
+            
+            var playlist_paragraph = document.createElement("p");
+            var playlist_text = document.createTextNode(message);
+            playlist_paragraph.appendChild(playlist_text);
+            var element_to_append = document.getElementById("container");
+            element_to_append.appendChild(playlist_paragraph);
+        }
     })
-}
+};
