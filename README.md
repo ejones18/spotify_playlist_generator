@@ -1,5 +1,5 @@
 # spotify_playlist_recommendations
-A python script that recommends a playlist based on an inputted artist and track. Please see to-do list to see progress!
+A python script that recommends a playlist based on an inputted artist and track. Now allows for playlists to be saved to your spotify account. Please see to-do list to see progress!
 
 ## What is this repository for? ##
 Create a random playlist from any song you want!
@@ -7,16 +7,17 @@ Create a random playlist from any song you want!
 
 ## Setup ##
 * Download Python3+ from https://www.python.org/downloads/release/python-370/
-* Download or clone the repository 
+* Download or clone the repository
+* Install requirements using ```pip install -r requirements.txt```
 
-# Running the *playlist_reccomendations.py script* #
+# Running the *playlist_recomendations.py script* #
 * Remember to add your spotify client credientials to the constants at the top of the script from https://developer.spotify.com/dashboard/
 * Navigate to the directory of the downloaded repo and run command ```python .\playlist_recommendations.py -h``` to see the CLI.
-* Navigate to the *engine* directory and run the module using ```python .\playlist_recommendations.py -a "artist name" -t "track name"```
+* Navigate to the directory and run the module using ```python .\playlist_recommendations.py --artist "artist name" --track "track name -s <optional_flag_to_save_playlist>"```
 
 ## Example ##
 Running script for a playlist based off a track by The Killers:- \
-```python .\playlist_recommendations.py -a "Killers" -t "When The Dreams Run Dry"```
+```python .\playlist_recommendations.py --artist "Killers" --track "When The Dreams Run Dry"```
 
 Suggested playlist:- 
 ``` 
