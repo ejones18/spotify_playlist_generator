@@ -10,21 +10,71 @@ import random
 import os
 import time
 
+import spotipy
 import pickle
 
 import requests
 
+from spotipy.oauth2 import SpotifyOAuth
+
 CLIENT_ID = ""
 CLIENT_SECRET = "" #Add your own client credentials here
+REDIRECT_URI = "
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
-def main(artist, track):
+def main(artist, track, save=None):
     """
     Print a 25 song-long playlist based on a randomly chosen input song.
     """
     seeds = search_artist_track(artist, track)
-    query_api(seeds)
+    json = query_api(seeds, False)
+    if save is not None:
+        try:
+            playlist = create_playlist(artist, track)
+            add_tracks_to_playlist(json, playlist)
+        except:
+            print("Couldn't add to playlist")
+    else:
+        print_output(json)
+
+def add_tracks_to_playlist(json_response, playlist_name):
+    """Adds tracks to spotify playlist."""
+    playlist_id = fetch_playlist_id(playlist_name)
+    uris = []
+    for i, j in enumerate(json_response['tracks']):
+        uris.append(j['uri'])
+    scope = "playlist-modify-public"
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,
+                                                client_secret=CLIENT_SECRET,
+                                                redirect_uri=REDIRECT_URI,
+                                                scope=scope))
+    sp.playlist_add_items(playlist_id, uris)
+    print("Playlist saved!")
+
+def fetch_playlist_id(playlist_name):
+    """Fetches playlist id for playlist."""
+    scope = "playlist-modify-public"
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,
+                                                client_secret=CLIENT_SECRET,
+                                                redirect_uri=REDIRECT_URI,
+                                                scope=scope))
+    playlists = sp.current_user_playlists()
+    for playlist in playlists['items']:
+        if playlist['name'] == playlist_name:
+            return playlist['id']
+
+def create_playlist(artist, track):
+    """Create playlist on Spotify account."""
+    scope = "playlist-modify-public"
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,
+                                                client_secret=CLIENT_SECRET,
+                                                redirect_uri=REDIRECT_URI,
+                                                scope=scope))
+    playlist_name = f"Playlist generated based on {track} by {artist}"
+    user_id = sp.me()['id']
+    sp.user_playlist_create(user_id, playlist_name)
+    return playlist_name
 
 def acquire_token():
     """Fetches a Spotify web API token"""
@@ -118,7 +168,7 @@ def define_filters(seeds):
     filters = [limit, market, seed_genres, seed_artists, seed_tracks]
     return filters
 
-def query_api(seeds):
+def query_api(seeds, save, playlis_name=None):
     """
     Queries the Spotify API and returns a json response.
     """
@@ -131,9 +181,9 @@ def query_api(seeds):
                             headers={"Content-Type":"application/json",
                                      "Authorization":f"Bearer {settings[1]}"})
     json_response = response.json()
-    print_output(json_response)
+    return json_response
 
-def print_output(json_response):
+def print_output(json_response, save=False):
     """
     Prints the output.
     """
@@ -149,15 +199,18 @@ def parse_options():
     parser = argparse.ArgumentParser(description=("This is a command line interface (CLI) for "
                                                   "the playlist_reccomendation module"),
                                      epilog="Ethan Jones, 2020-05-25")
-    parser.add_argument("-a", dest="artist", action="store", type=str,
-                        required=True, metavar="name_of_artist",
-                        help="Artist name.")
-    parser.add_argument("-t", dest="track", action="store", type=str,
-                        required=True, metavar="name_of_track",
-                        help="Track name.")
+    parser.add_argument("--artist", dest="artist", action="store", type=str,
+                        required=True, help="Artist name.")
+    parser.add_argument("--track", dest="track", action="store", type=str,
+                        required=True, help="Track name.")
+    parser.add_argument("-s", dest="save", action="store_true",
+                        required=False, help="Playlist name.")
     options = parser.parse_args()
     return options
 
 if __name__ == "__main__":
     OPTIONS = parse_options()
-    main(OPTIONS.artist, OPTIONS.track)
+    if OPTIONS.save:
+        main(OPTIONS.artist, OPTIONS.track, OPTIONS.save)
+    else:
+        main(OPTIONS.artist, OPTIONS.track)
