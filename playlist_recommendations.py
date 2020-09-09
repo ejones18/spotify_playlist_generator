@@ -8,6 +8,7 @@ import argparse
 import json
 import random
 import os
+import sys
 import time
 
 import spotipy
@@ -17,9 +18,6 @@ import requests
 
 from spotipy.oauth2 import SpotifyOAuth
 
-CLIENT_ID = ""
-CLIENT_SECRET = "" #Add your own client credentials here
-REDIRECT_URI = "
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -117,7 +115,11 @@ def fetch_artist_genre(artist_id):
                                      "Authorization":f"Bearer {settings[1]}"})
     json_response = response.json()
     genres = json_response['genres']
-    index = random.randint(0, len(genres)-1)
+    try:
+        index = random.randint(0, len(genres)-1)
+    except:
+        print("Spotify doesn't store genres for this artist, please try another one!")
+        sys.exit()
     genre = genres[index]
     return genre
 
@@ -130,9 +132,7 @@ def search_artist_track(artist, track):
     endpoint_url = "https://api.spotify.com/v1/search?"
     query = f'{endpoint_url}'
     query += f'q=track%3A{track}%20artist%3A{artist}&type=track'
-    response = requests.get(query,
-                            headers={"Content-Type":"application/json",
-                                     "Authorization":f"Bearer {settings[1]}"})
+    response = requests.get(query, headers={"Content-Type":"application/json", "Authorization":f"Bearer {settings[1]}"})
     json_response = response.json()
     seeds = get_track_artist_id_from_json(json_response)
     return seeds
@@ -141,7 +141,11 @@ def get_track_artist_id_from_json(json_response):
     """
     Gets the track and artist ID from the json response from the API search.
     """
-    artist_id = json_response['tracks']['items'][0]['artists'][0]['id']
+    try:
+        artist_id = json_response['tracks']['items'][0]['artists'][0]['id']
+    except:
+        print("Whoops, something went wrong fetching the artist info - please try again")
+        sys.exit()
     track_id = json_response['tracks']['items'][0]['id']
     genre = fetch_artist_genre(artist_id)
     seeds = [(artist_id), (track_id), (genre)]
@@ -168,7 +172,7 @@ def define_filters(seeds):
     filters = [limit, market, seed_genres, seed_artists, seed_tracks]
     return filters
 
-def query_api(seeds, save, playlis_name=None):
+def query_api(seeds, save):
     """
     Queries the Spotify API and returns a json response.
     """
