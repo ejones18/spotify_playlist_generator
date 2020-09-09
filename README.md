@@ -10,7 +10,7 @@ Create a random playlist from any song you want!
 * Download or clone the repository
 * Install requirements using ```pip install -r requirements.txt```
 
-# Running the *playlist_reccomendations.py script* #
+# Running the *playlist_recomendations.py script* #
 * Remember to add your spotify client credientials to the constants at the top of the script from https://developer.spotify.com/dashboard/
 * Navigate to the directory of the downloaded repo and run command ```python .\playlist_recommendations.py -h``` to see the CLI.
 * Navigate to the directory and run the module using ```python .\playlist_recommendations.py --artist "artist name" --track "track name -s <optional_flag_to_save_playlist>"```
