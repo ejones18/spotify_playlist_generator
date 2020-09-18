@@ -1,4 +1,4 @@
-# spotify_playlist_recommendations
+# spotify_playlist_generator
 A python script that recommends a playlist based on an inputted artist and track. Now allows for playlists to be saved to your spotify account. Please see to-do list to see progress!
 
 ## What is this repository for? ##
